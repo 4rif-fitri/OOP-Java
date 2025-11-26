@@ -47,7 +47,7 @@ public class Courier {
 					input.next();
 					distance = -10;
 				}
-			} while (distance < 0);
+			} while (distance < 0 || distance > 100);
 
 
 			if(weight > 10) 	  rate = 20;

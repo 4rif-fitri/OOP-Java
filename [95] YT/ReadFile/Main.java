@@ -3,11 +3,11 @@ import java.io.FileReader;
 
 public class Main {
 	public static void main(String[] args) {
-		String file = "aaa.txt";
+		String file = "ReadFile\\aaa.txt";
 		BufferedReader reader = null;
 		String line = "";
 
-		try {
+		try {       
 			reader = new BufferedReader(new FileReader(file));
 			while ((line = reader.readLine()) != null) {
 				String[] row = line.split(",");
@@ -21,8 +21,8 @@ public class Main {
 			}
 
 		} catch (Exception e) {
-			// System.out.println(e);
-			e.printStackTrace();
+			System.out.println(e);
+			// e.printStackTrace();
 		}
 	}	
 }
