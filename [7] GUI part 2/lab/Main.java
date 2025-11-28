@@ -10,8 +10,6 @@ public class Main extends JFrame{
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("LOREM");    
-        ImageIcon icon = new ImageIcon(getClass().getResource(""));
-frame.setIconImage(icon.getImage());
   
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
