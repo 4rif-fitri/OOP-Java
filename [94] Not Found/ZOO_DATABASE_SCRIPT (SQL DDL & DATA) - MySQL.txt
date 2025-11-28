@@ -1,0 +1,167 @@
+CREATE TABLE HABITAT (
+    HabitatID        VARCHAR(10) PRIMARY KEY,
+    HabitatType      VARCHAR(50) NOT NULL,
+    HabitatSize      INT NOT NULL,
+    Climate          VARCHAR(20) NOT NULL CHECK (Climate IN ('Dry', 'Humid', 'Cold', 'Hot', 'Temperate')),
+    MaximumCapacity  TINYINT NOT NULL CHECK (MaximumCapacity > 0 AND MaximumCapacity <= 30),
+    Status           VARCHAR(50) NOT NULL CHECK (Status IN ('Operational', 'Under Renovation', 'Designated for Future Use', 'Under Maintenance'))
+);
+
+INSERT INTO HABITAT (HabitatID, HabitatType, HabitatSize, Climate, MaximumCapacity, Status) VALUES
+('H001', 'Savannah', 1000, 'Dry', 30, 'Operational');
+
+INSERT INTO HABITAT (HabitatID, HabitatType, HabitatSize, Climate, MaximumCapacity, Status) VALUES
+('H002', 'Rainforest', 800, 'Humid', 30, 'Under Renovation');
+
+INSERT INTO HABITAT (HabitatID, HabitatType, HabitatSize, Climate, MaximumCapacity, Status) VALUES
+('H003', 'Arctic', 500, 'Cold', 10, 'Operational');
+
+INSERT INTO HABITAT (HabitatID, HabitatType, HabitatSize, Climate, MaximumCapacity, Status) VALUES
+('H004', 'Desert', 1200, 'Hot', 30, 'Designated for Future Use');
+
+INSERT INTO HABITAT (HabitatID, HabitatType, HabitatSize, Climate, MaximumCapacity, Status) VALUES
+('H005', 'Grassland', 900, 'Temperate', 20, 'Operational');
+
+INSERT INTO HABITAT (HabitatID, HabitatType, HabitatSize, Climate, MaximumCapacity, Status) VALUES
+('H006', 'Wetlands', 700, 'Humid', 15, 'Operational');
+
+INSERT INTO HABITAT (HabitatID, HabitatType, HabitatSize, Climate, MaximumCapacity, Status) VALUES
+('H007', 'Tropical Forest', 1100, 'Humid', 25, 'Operational');
+
+INSERT INTO HABITAT (HabitatID, HabitatType, HabitatSize, Climate, MaximumCapacity, Status) VALUES
+('H008', 'Tundra', 600, 'Cold', 20, 'Under Maintenance');
+
+
+CREATE TABLE ANIMAL (
+    AnimalID            VARCHAR(10) PRIMARY KEY,
+    Species             VARCHAR(50) NOT NULL,
+    Name                VARCHAR(50) NOT NULL,
+    Gender              VARCHAR(10) NOT NULL CHECK (Gender IN ('Male', 'Female')),
+    BirthDate           DATE NOT NULL,
+    CurrentHealthStatus VARCHAR(50) NOT NULL,
+    Diet                VARCHAR(20) NOT NULL CHECK (Diet IN ('Carnivore', 'Herbivore', 'Omnivore')),
+    ArrivalDate         DATE NOT NULL,
+    HabitatID           VARCHAR(10) NOT NULL,
+    FOREIGN KEY (HabitatID) REFERENCES HABITAT(HabitatID)
+);
+
+INSERT INTO ANIMAL (AnimalID, Species, Name, Gender, BirthDate, CurrentHealthStatus, Diet, ArrivalDate, HabitatID) VALUES
+('A001', 'Lion', 'Simba', 'Male', '2015-08-14', 'Healthy', 'Carnivore', '2016-02-10', 'H001');
+
+INSERT INTO ANIMAL (AnimalID, Species, Name, Gender, BirthDate, CurrentHealthStatus, Diet, ArrivalDate, HabitatID) VALUES
+('A002', 'Elephant', 'Dumbo', 'Male', '2013-05-21', 'Injured', 'Herbivore', '2014-11-05', 'H005');
+
+INSERT INTO ANIMAL (AnimalID, Species, Name, Gender, BirthDate, CurrentHealthStatus, Diet, ArrivalDate, HabitatID) VALUES
+('A003', 'Giraffe', 'Melman', 'Male', '2018-07-09', 'Healthy', 'Herbivore', '2019-03-12', 'H005');
+
+INSERT INTO ANIMAL (AnimalID, Species, Name, Gender, BirthDate, CurrentHealthStatus, Diet, ArrivalDate, HabitatID) VALUES
+('A004', 'Penguin', 'Skipper', 'Female', '2020-01-23', 'Healthy', 'Carnivore', '2020-06-08', 'H003');
+
+INSERT INTO ANIMAL (AnimalID, Species, Name, Gender, BirthDate, CurrentHealthStatus, Diet, ArrivalDate, HabitatID) VALUES
+('A005', 'Tiger', 'Shere Khan', 'Male', '2014-06-25', 'Healthy', 'Carnivore', '2015-09-15', 'H001');
+
+INSERT INTO ANIMAL (AnimalID, Species, Name, Gender, BirthDate, CurrentHealthStatus, Diet, ArrivalDate, HabitatID) VALUES
+('A006', 'Zebra', 'Marty', 'Male', '2017-04-16', 'Healthy', 'Herbivore', '2018-02-18', 'H005');
+
+INSERT INTO ANIMAL (AnimalID, Species, Name, Gender, BirthDate, CurrentHealthStatus, Diet, ArrivalDate, HabitatID) VALUES
+('A007', 'Kangaroo', 'Roo', 'Female', '2019-11-30', 'Healthy', 'Herbivore', '2020-03-10', 'H007');
+
+
+CREATE TABLE ZOOKEEPER (
+    ZookeeperID           VARCHAR(10) PRIMARY KEY,
+    Name                  VARCHAR(100) NOT NULL,
+    ExperienceLevel       VARCHAR(20) NOT NULL CHECK (ExperienceLevel IN ('Beginner', 'Intermediate', 'Advanced', 'Expert')),
+    SpecialisedSkill      VARCHAR(50) NOT NULL,
+    HabitatID             VARCHAR(10) NOT NULL,
+    SupervisorID          VARCHAR(10),
+    SupervisionStartDate  DATE NOT NULL,
+    SupervisionEndDate    DATE,
+    SupervisionLevel      TINYINT NOT NULL,
+    FOREIGN KEY (HabitatID) REFERENCES HABITAT(HabitatID),
+    FOREIGN KEY (SupervisorID) REFERENCES ZOOKEEPER(ZookeeperID)
+);
+
+INSERT INTO ZOOKEEPER (ZookeeperID, Name, ExperienceLevel, SpecialisedSkill, HabitatID, SupervisorID, SupervisionStartDate, SupervisionEndDate, SupervisionLevel) VALUES
+('ZK001', 'John Smith', 'Expert', 'Large Mammals', 'H001', NULL, '2020-01-15', NULL, 1);
+
+INSERT INTO ZOOKEEPER (ZookeeperID, Name, ExperienceLevel, SpecialisedSkill, HabitatID, SupervisorID, SupervisionStartDate, SupervisionEndDate, SupervisionLevel) VALUES
+('ZK002', 'Alice Brown', 'Intermediate', 'Reptiles', 'H002', 'ZK001', '2021-03-10', NULL, 2);
+
+INSERT INTO ZOOKEEPER (ZookeeperID, Name, ExperienceLevel, SpecialisedSkill, HabitatID, SupervisorID, SupervisionStartDate, SupervisionEndDate, SupervisionLevel) VALUES
+('ZK003', 'Mike Green', 'Beginner', 'Birds', 'H003', 'ZK002', '2022-06-05', NULL, 3);
+
+INSERT INTO ZOOKEEPER (ZookeeperID, Name, ExperienceLevel, SpecialisedSkill, HabitatID, SupervisorID, SupervisionStartDate, SupervisionEndDate, SupervisionLevel) VALUES
+('ZK004', 'Sarah Jones', 'Expert', 'Small Mammals', 'H004', NULL, '2020-02-20', NULL, 1);
+
+INSERT INTO ZOOKEEPER (ZookeeperID, Name, ExperienceLevel, SpecialisedSkill, HabitatID, SupervisorID, SupervisionStartDate, SupervisionEndDate, SupervisionLevel) VALUES
+('ZK005', 'Rachel Lee', 'Intermediate', 'Herbivores', 'H005', 'ZK004', '2021-04-10', NULL, 2);
+
+INSERT INTO ZOOKEEPER (ZookeeperID, Name, ExperienceLevel, SpecialisedSkill, HabitatID, SupervisorID, SupervisionStartDate, SupervisionEndDate, SupervisionLevel) VALUES
+('ZK006', 'Mark Black', 'Beginner', 'Amphibians', 'H006', 'ZK005', '2022-07-01', NULL, 3);
+
+INSERT INTO ZOOKEEPER (ZookeeperID, Name, ExperienceLevel, SpecialisedSkill, HabitatID, SupervisorID, SupervisionStartDate, SupervisionEndDate, SupervisionLevel) VALUES
+('ZK007', 'Peter White', 'Advanced', 'Large Carnivores', 'H007', 'ZK001', '2020-09-15', NULL, 2);
+
+INSERT INTO ZOOKEEPER (ZookeeperID, Name, ExperienceLevel, SpecialisedSkill, HabitatID, SupervisorID, SupervisionStartDate, SupervisionEndDate, SupervisionLevel) VALUES
+('ZK008', 'Laura Grant', 'Intermediate', 'Polar Animals', 'H008', 'ZK004', '2021-05-20', NULL, 2);
+
+
+CREATE TABLE ANIMAL_ZOOKEEPER (
+    AnimalID        VARCHAR(10),
+    ZookeeperID     VARCHAR(10),
+    AssignedDate    DATE NOT NULL,
+    SpecificDuty    VARCHAR(255) NOT NULL,
+    PRIMARY KEY (AnimalID, ZookeeperID),
+    FOREIGN KEY (AnimalID) REFERENCES ANIMAL(AnimalID),
+    FOREIGN KEY (ZookeeperID) REFERENCES ZOOKEEPER(ZookeeperID)
+);
+
+INSERT INTO ANIMAL_ZOOKEEPER (AnimalID, ZookeeperID, AssignedDate, SpecificDuty) VALUES
+('A001', 'ZK001', '2017-01-15', 'Feeding, Training');
+
+INSERT INTO ANIMAL_ZOOKEEPER (AnimalID, ZookeeperID, AssignedDate, SpecificDuty) VALUES
+('A002', 'ZK001', '2016-03-10', 'Health Monitoring, Feeding');
+
+INSERT INTO ANIMAL_ZOOKEEPER (AnimalID, ZookeeperID, AssignedDate, SpecificDuty) VALUES
+('A003', 'ZK002', '2019-04-01', 'Health Monitoring, Feeding');
+
+INSERT INTO ANIMAL_ZOOKEEPER (AnimalID, ZookeeperID, AssignedDate, SpecificDuty) VALUES
+('A004', 'ZK003', '2020-07-10', 'Feeding, Health Monitoring');
+
+INSERT INTO ANIMAL_ZOOKEEPER (AnimalID, ZookeeperID, AssignedDate, SpecificDuty) VALUES
+('A005', 'ZK007', '2016-10-05', 'Feeding, Training');
+
+INSERT INTO ANIMAL_ZOOKEEPER (AnimalID, ZookeeperID, AssignedDate, SpecificDuty) VALUES
+('A006', 'ZK005', '2018-03-05', 'Training, Feeding');
+
+INSERT INTO ANIMAL_ZOOKEEPER (AnimalID, ZookeeperID, AssignedDate, SpecificDuty) VALUES
+('A007', 'ZK003', '2020-04-15', 'Feeding, Enrichment Activities');
+
+
+CREATE TABLE ZOO_VEHICLE (
+    VehicleID           VARCHAR(10) PRIMARY KEY,
+    Model               VARCHAR(50) NOT NULL,
+    Status              VARCHAR(50) NOT NULL CHECK (Status IN ('Operational', 'Under Maintenance')),
+    LicensePlateNumber  VARCHAR(20) NOT NULL,
+    ZookeeperID         VARCHAR(10),
+    FOREIGN KEY (ZookeeperID) REFERENCES ZOOKEEPER(ZookeeperID)
+);
+
+INSERT INTO ZOO_VEHICLE (VehicleID, Model, Status, LicensePlateNumber, ZookeeperID) VALUES
+('V001', 'Toyota Hilux', 'Operational', 'XYZ1234', 'ZK001');
+
+INSERT INTO ZOO_VEHICLE (VehicleID, Model, Status, LicensePlateNumber, ZookeeperID) VALUES
+('V002', 'Ford Ranger', 'Under Maintenance', 'ABC5678', NULL);
+
+INSERT INTO ZOO_VEHICLE (VehicleID, Model, Status, LicensePlateNumber, ZookeeperID) VALUES
+('V003', 'Honda CR-V', 'Operational', 'DEF9012', 'ZK002');
+
+INSERT INTO ZOO_VEHICLE (VehicleID, Model, Status, LicensePlateNumber, ZookeeperID) VALUES
+('V004', 'Jeep Wrangler', 'Operational', 'GHI3456', 'ZK003');
+
+INSERT INTO ZOO_VEHICLE (VehicleID, Model, Status, LicensePlateNumber, ZookeeperID) VALUES
+('V005', 'Land Rover', 'Under Maintenance', 'JKL6789', NULL);
+
+INSERT INTO ZOO_VEHICLE (VehicleID, Model, Status, LicensePlateNumber, ZookeeperID) VALUES
+('V006', 'Ford Escape', 'Operational', 'MNO1234', 'ZK004');
+
