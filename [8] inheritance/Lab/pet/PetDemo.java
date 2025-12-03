@@ -1,7 +1,7 @@
-package Lab.pet;
+package Lab.Pet;
 
-import Lab.pet.Cat;
-import Lab.pet.Dog;
+import Lab.Pet.Cat;
+import Lab.Pet.Dog;
 
 public class PetDemo {
     public static void main(String[] args) {

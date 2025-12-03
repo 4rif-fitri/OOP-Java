@@ -1,4 +1,4 @@
-package Lab.pet;
+package Lab.Pet;
 
 
 public class Dog extends Pet{
